@@ -14,7 +14,7 @@ public class EnemyProjectile extends Projectile {
     public void setRadius(double radius) { this.radius = radius; }
 
     @Override
-    public void movimentar(long delta) {
+    public void atualizar(long delta) {
         if(this.state == ACTIVE) { 
             
             if(this.y > GameLib.HEIGHT) { 
