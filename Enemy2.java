@@ -6,7 +6,7 @@ public class Enemy2 extends Enemy {
     public Enemy2(double x, double y) {
         this.x = x;
         this.y = y;
-        this.state = Main.ACTIVE; // Usando Main.
+        this.state = Entidade.ACTIVE; // Usando Main.
         this.radius = 12.0;
         this.velocidade = 0.42;
         this.angle = (3 * Math.PI) / 2;
@@ -16,12 +16,12 @@ public class Enemy2 extends Enemy {
     @Override
     public void desenhaEnemy(long currentTime) {
 
-        if (this.state == Main.EXPLODING) {
+        if (this.state == Entidade.EXPLODING) {
             double alpha = (currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start);
             GameLib.drawExplosion(this.x, this.y, alpha);
         }
 
-        if (this.state == Main.ACTIVE) { // 2. Corrigido para this.state
+        if (this.state == Entidade.ACTIVE) { // 2. Corrigido para this.state
             GameLib.setColor(Color.MAGENTA);
             GameLib.drawDiamond(this.x, this.y, this.radius); // 3. Corrigido para this.radius
         }
@@ -30,17 +30,17 @@ public class Enemy2 extends Enemy {
     @Override
     public void atualizar(long delta, long currentTime, Player player, ArrayList<Projetil> TirosInimigo) { // 5. Ajustado para Projetil
 
-        if (this.state == Main.EXPLODING) {
+        if (this.state == Entidade.EXPLODING) {
             if (currentTime > this.explosion_end) {
-                this.state = Main.INACTIVE;
+                this.state = Entidade.INACTIVE;
             }
         }
 
-        if (this.state == Main.ACTIVE) {
+        if (this.state == Entidade.ACTIVE) {
 
             /* verificando se inimigo saiu da tela */
             if (this.x < -10 || this.x > GameLib.WIDTH + 10) {
-                this.state = Main.INACTIVE; // 4. Removido o vetor antigo!
+                this.state = Entidade.INACTIVE; // 4. Removido o vetor antigo!
             } else {
 
                 boolean shootNow = false;
