@@ -12,16 +12,22 @@ public abstract class Enemy implements Entidade {
     protected double angle;
 
     
-
+    @Override
     public int getState() { return state; }
+    @Override
     public void setState(int state) { this.state = state; }
 
+    @Override
     public double getX() { return x; }
+    @Override
     public void setX(double x) { this.x = x; }
 
+    @Override
     public double getY() { return y; }
+    @Override
     public void setY(double y) { this.y = y; }
 
+    @Override
     public double getRadius() { return radius; }
     public void setRadius(double radius) { this.radius = radius; }
 
