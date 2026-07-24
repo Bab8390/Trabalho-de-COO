@@ -1,4 +1,4 @@
-public class Projetil_e extends Projectile {
+public class Projetil_e extends Projetil {
     private double radius; 
 
     public Projetil_e(double x, double y, double vx, double vy) {
