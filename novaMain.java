@@ -72,7 +72,7 @@ public class Main {
             // =======================================================
             // SISTEMA DE RESPAWN ADICIONADO AQUI
             // =======================================================
-            if (player.getState() == Main.INACTIVE) {
+            if (player.getState() == Entidade.INACTIVE) {
                 // Cria uma nave nova exatamente na posição inicial
                 player = new Player(GameLib.WIDTH / 2.0, GameLib.HEIGHT * 0.90);
             }
