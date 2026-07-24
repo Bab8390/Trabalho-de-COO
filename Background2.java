@@ -1,15 +1,7 @@
 public class Background2 extends Background {
-    private double x;
-    private double y;
-    private double velocidade;
-    private double count;
 
-    public Background2(double x, double y, double velocidade) {
-        super(x, y, velocidade);
-        this.x = x;
-        this.y = y;
-        this.velocidade = 0.045;
-        this.count = 0.0;
+    public Background2(int estrelas, double velocidade) {
+        super(estrelas, velocidade);
     }
 
     @Override
