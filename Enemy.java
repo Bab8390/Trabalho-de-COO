@@ -6,7 +6,7 @@ public abstract class Enemy implements Entidade {
     protected double explosion_start;
     protected double explosion_end;
     protected double velocidade;
-    protected double RV;
+    protected double rv;
     protected double angle;
 
     
@@ -32,8 +32,8 @@ public abstract class Enemy implements Entidade {
     public double getVelocidade() { return velocidade; }
     public void setVelocidade(double velocidade) { this.velocidade = velocidade; }
 
-    public double getVelocidade_rotacao() { return velocidade_rotacao; }
-    public void setVelocidade_rotacao(double velocidade_rotacao) { this.velocidade_rotacao = velocidade_rotacao; }
+    public double getrv() { return rv; }
+    public void setrv(double rv) { this.rv = rv; }
 
     public double getAngle() { return angle; }
     public void setAngle(double angle) { this.angle = angle; }
