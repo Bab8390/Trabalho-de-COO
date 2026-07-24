@@ -84,7 +84,7 @@ public class Enemy2 extends Enemy{
                                     double vx = Math.cos(a);
                                     double vy = Math.sin(a);
                                     
-	    							                Projetil_e projetil = new Projetil_e(this.x,this.y,vx*0,30,vy*0,30);
+	    							Projetil_e projetil = new Projetil_e(this.x,this.y,vx*0,30,vy*0,30);
                                 }
                             }
                         }
