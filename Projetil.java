@@ -7,6 +7,7 @@ public abstract class Projetil implements Entidade{
 	protected double y;
 	protected double vx;
 	protected double vy;
+    protected double radius;
 
     //getters e setters
 	public double getX() { return x; }
@@ -23,6 +24,9 @@ public abstract class Projetil implements Entidade{
 
     public int getState() { return state; }
     public void setState(int state) { this.state = state; }
+
+    public double getRadius() { return radius; }
+    public void setRadius(double radius) { this.radius = radius; }
 
     //métodos
 	public abstract void atualizar (long delta);
