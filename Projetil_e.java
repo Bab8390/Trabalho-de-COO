@@ -1,7 +1,7 @@
-public class EnemyProjectile extends Projectile {
+public class Projetil_e extends Projectile {
     private double radius; 
 
-    public EnemyProjectile(double x, double y, double vx, double vy) {
+    public Projetil_e(double x, double y, double vx, double vy) {
         this.x = x;
         this.y = y;
         this.vx = vx;
