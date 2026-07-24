@@ -1,4 +1,4 @@
-public Enemy1 extends Enemy {
+public class Enemy1 extends Enemy {
     private long nextShot;
     
     public Enemy1(double x, double y) {
@@ -19,7 +19,6 @@ public Enemy1 extends Enemy {
         for(int i = 0; i < this.states.length; i++){
 
             if(this.states == EXPLODING){
-
                 if(currentTime > this.explosion_end){
                     this.states = INACTIVE;
                 }

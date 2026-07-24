@@ -1,5 +1,5 @@
 // classe mãe da Projetil_e e Projetil_p
-public abstract class Projetil{
+public abstract class Projetil implements Entidade{
   
 	//atributos
 	protected int state;
