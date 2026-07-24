@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Enemy2 extends Enemy {
 
     public Enemy2(double x, double y) {
@@ -11,8 +13,6 @@ public class Enemy2 extends Enemy {
     }
 
     public void desenhaEnemy(long currentTime) {
-
-        for (int i = 0; i < this.state.length; i++) { // atenção nisso AQUI DEPOIS
 
             if (this.state == EXPLODING) {
 
@@ -29,8 +29,6 @@ public class Enemy2 extends Enemy {
     }
 
     public void atualizar(long delta, long currentTime, Player player, ArrayList<Projectile> TirosInimigo) {
-
-        for (int i = 0; i < enemy2_states.length; i++) { // atenção nisso AQUI DEPOIS
 
             if (this.state == EXPLODING) {
 
@@ -88,6 +86,7 @@ public class Enemy2 extends Enemy {
                         double vy = Math.sin(a);
 
                         Projetil_e projetil = new Projetil_e(this.x, this.y, vx * 0, 30, vy * 0, 30);
+                        projeteisEnemy.add(projetil);
                     }
                 }
             }
