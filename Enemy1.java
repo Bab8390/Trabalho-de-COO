@@ -8,7 +8,7 @@ public class Enemy1 extends Enemy { // 1. Corrigido: Adicionado o nome da classe
         this.x = x;
         this.y = y;
         this.velocidade = 0.20 + Math.random() * 0.15;
-        this.state = Main.ACTIVE; // Refere-se à constante lá do Main
+        this.state = Entidade.ACTIVE; // Refere-se à constante lá do Main
         this.radius = 9.0;
         this.angle = (3 * Math.PI) / 2;
         this.rv = 0.0;
@@ -21,17 +21,17 @@ public class Enemy1 extends Enemy { // 1. Corrigido: Adicionado o nome da classe
     public void atualizar(long delta, long currentTime, Player player, ArrayList<Projetil> TirosInimigo){
         
         // 3. Removido o FOR fantasma e corrigido 'states' para 'state'
-        if(this.state == Main.EXPLODING){
+        if(this.state == Entidade.EXPLODING){
             if(currentTime > this.explosion_end){
-                this.state = Main.INACTIVE;
+                this.state = Entidade.INACTIVE;
             }
         }
 
-        if(this.state == Main.ACTIVE){
+        if(this.state == Entidade.ACTIVE){
 
             /* verificando se inimigo saiu da tela */
             if(this.y > GameLib.HEIGHT + 10) {
-                this.state = Main.INACTIVE;
+                this.state = Entidade.INACTIVE;
             } else {
                 // 4. Trocado 'vy' pela variável correta 'velocidade'
                 this.x += this.velocidade * Math.cos(this.angle) * delta;
@@ -53,12 +53,12 @@ public class Enemy1 extends Enemy { // 1. Corrigido: Adicionado o nome da classe
     @Override
     public void desenhaEnemy(long currentTime){ //vai desenhar o inimigo
         // Corrigido de 'states' para 'state'
-        if(this.state == Main.EXPLODING){
+        if(this.state == Entidade.EXPLODING){
             double alpha = (currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start);
             GameLib.drawExplosion(this.x, this.y, alpha);
         }
 
-        if(this.state == Main.ACTIVE){
+        if(this.state == Entidade.ACTIVE){
             GameLib.setColor(Color.CYAN);
             GameLib.drawCircle(this.x, this.y, this.radius);
         }
