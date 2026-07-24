@@ -1,24 +1,21 @@
+import java.awt.Color;
+
 public class Projetil_e extends Projetil {
-    private double radius; 
 
     public Projetil_e(double x, double y, double vx, double vy) {
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
-        this.state = ACTIVE;
-        this.radius = 2.0;
+        this.state = Main.ACTIVE;
+        this.radius = 2.0; // Ele usa a variável da mãe automaticamente!
     }
-
-    public double getRadius() { return radius; }
-    public void setRadius(double radius) { this.radius = radius; }
 
     @Override
     public void atualizar(long delta) {
-        if(this.state == ACTIVE) {
-            
+        if(this.state == Main.ACTIVE) {
             if(this.y > GameLib.HEIGHT) {
-                this.state = INACTIVE;
+                this.state = Main.INACTIVE;
             } else {
                 this.x += this.vx * delta;
                 this.y += this.vy * delta;
@@ -28,7 +25,7 @@ public class Projetil_e extends Projetil {
 
     @Override
     public void desenhar() {
-        if(this.state == ACTIVE) { 
+        if(this.state == Main.ACTIVE) { 
             GameLib.setColor(Color.RED);
             GameLib.drawCircle(this.x, this.y, this.radius);
         }
