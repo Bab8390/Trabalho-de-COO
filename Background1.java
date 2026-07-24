@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class Background1 extends Background {
 
     public Background1(int estrelas, double velocidade) {
