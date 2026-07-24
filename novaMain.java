@@ -24,6 +24,9 @@ public class Main {
         ArrayList<Projetil> projeteisEnemy = new ArrayList<>();
         ArrayList<Enemy> inimigos = new ArrayList<>();
 
+        Background background1 = new Background1(0, 0, 0.070);
+        Background background2 = new Background2(0, 0, 0.045);
+
         GameLib.initGraphics();
 
         while (running) {
