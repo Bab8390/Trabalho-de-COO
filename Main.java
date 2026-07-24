@@ -138,5 +138,6 @@ public class Main {
             GameLib.display();
             busyWait(currentTime + 3);
         }
+		System.exit(0); // Encerra o programa quando o loop termina
     }
 }

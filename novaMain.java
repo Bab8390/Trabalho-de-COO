@@ -139,5 +139,6 @@ public class Main {
             GameLib.display();
             busyWait(currentTime + 3);
         }
+		System.exit(0);
     }
 }
