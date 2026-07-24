@@ -70,7 +70,7 @@ public class Main {
             player.atualizar(GameLib.iskeyPressed(GameLib.KEY_UP), GameLib.iskeyPressed(GameLib.KEY_DOWN), GameLib.iskeyPressed(GameLib.KEY_LEFT), GameLib.iskeyPressed(GameLib.KEY_RIGHT), delta, currentTime);
 
             // =======================================================
-            // 🔄 SISTEMA DE RESPAWN ADICIONADO AQUI
+            // SISTEMA DE RESPAWN ADICIONADO AQUI
             // =======================================================
             if (player.getState() == Main.INACTIVE) {
                 // Cria uma nave nova exatamente na posição inicial
