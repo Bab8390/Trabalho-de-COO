@@ -42,3 +42,4 @@ public abstract class Enemy implements Entidade {
 
     public abstract void atualizar(long delta, long currentTime, Player player, ArrayList<Projectile> TirosInimigo);
     public abstract void desenhaEnemy(long currentTime);
+}
