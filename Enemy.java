@@ -6,7 +6,7 @@ public abstract class Enemy implements Entidade {
     protected double explosion_start;
     protected double explosion_end;
     protected double velocidade;
-    protected double velocidade_rotacao;
+    protected double RV;
     protected double angle;
 
     
