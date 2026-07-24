@@ -79,7 +79,7 @@ public class Main {
             // =======================================================
 
             // Substituído o '1' por 'Main.ACTIVE'
-            if (GameLib.iskeyPressed(GameLib.KEY_CONTROL) && player.getState() == Main.ACTIVE) {
+            if (GameLib.iskeyPressed(GameLib.KEY_CONTROL) && player.getState() == Entidade.ACTIVE) {
                 if (currentTime > player.getNextShot()) {
                     Projetil_p tirop = new Projetil_p(player.getX(), player.getY() - 2 * player.getRadius());
                     projeteisPlayer.add(tirop);
@@ -91,7 +91,7 @@ public class Main {
             for (int i = 0; i < projeteisPlayer.size(); i++) {
                 Projetil pp = projeteisPlayer.get(i);
                 pp.atualizar(delta);
-                if (pp.getState() == Main.INACTIVE) {
+                if (pp.getState() == Entidade.INACTIVE) {
                     projeteisPlayer.remove(i);
                     i--;
                 }
@@ -100,7 +100,7 @@ public class Main {
             for (int i = 0; i < projeteisEnemy.size(); i++) {
                 Projetil ep = projeteisEnemy.get(i);
                 ep.atualizar(delta);
-                if (ep.getState() == Main.INACTIVE) {
+                if (ep.getState() == Entidade.INACTIVE) {
                     projeteisEnemy.remove(i);
                     i--;
                 }
@@ -109,7 +109,7 @@ public class Main {
             for (int i = 0; i < inimigos.size(); i++) {
                 Enemy e = inimigos.get(i);
                 e.atualizar(delta, currentTime, player, projeteisEnemy);
-                if (e.getState() == Main.INACTIVE) {
+                if (e.getState() == Entidade.INACTIVE) {
                     inimigos.remove(i);
                     i--;
                 }
