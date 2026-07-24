@@ -3,17 +3,17 @@ public class Projetil_p extends Projetil {
     public Projetil_p(double x, double y) {
         this.x = x;
         this.y = y;
-        this.vx = 0.0; 
+        this.vx = 0.0;
         this.vy = -1.0;
-        this.state = ACTIVE; 
+        this.state = ACTIVE;
     }
 
     @Override
     public void atualizar(long delta) {
-        if(this.state == ACTIVE) { 
+        if(this.state == ACTIVE) {
             
-            if(this.y < 0) { 
-                this.state = INACTIVE; 
+            if(this.y < 0) {
+                this.state = INACTIVE;
             } else {
                 this.x += this.vx * delta;
                 this.y += this.vy * delta;
