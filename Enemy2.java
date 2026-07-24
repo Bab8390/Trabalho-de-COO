@@ -5,7 +5,7 @@ public class Enemy2 extends Enemy {
         this.y = y;
         this.state = ACTIVE;
         this.radius = 12.0;
-        this.velocidae = 0.42;
+        this.velocidade = 0.42;
         this.angle = (3 * Math.PI) / 2;
         this.rv = 0.0;
     }
