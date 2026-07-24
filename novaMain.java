@@ -18,10 +18,13 @@ public class Main{
 		long delta;
 		long currentTime = System.currentTimeMillis();
 		
-		Player player = new Player(GameLib.WIDTH/2.0,GameLib.HEIGHT *0,90 );
+		Player player = new Player(GameLib.WIDTH/2.0,GameLib.HEIGHT *(0.90) );
 		ArrayList<Projetil> projeteisPlayer = new ArrayList<>();
 		ArrayList<Projetil> projeteisEnemy = new ArrayList<>();
 		ArrayList<Enemy> inimigos = new ArrayList<>();
+
+		Background background1 = new Background1(20, 0.070);
+		Background background2 = new Background2(50, 0.045);
 		
 		GameLib.initGraphics();
 		
@@ -30,9 +33,12 @@ public class Main{
 			delta = System.currentTimeMillis() - currentTime;
 			
 			currentTime = System.currentTimeMillis();
+
+			Colisao.verificarColisoes(currentTime, player, projeteisPlayer, projeteisEnemy, inimigos); // Verificação de Colisões
+
 			long nextEnemy1 = currentTime + 2000;
 			long nextEnemy2 = currentTime + 7000;
-			double enemy2_spawnX = GameLib.WIDTH *0,20;
+			double enemy2_spawnX = GameLib.WIDTH *(0.20);
 			int enemy2_count = 0;
 			
 			//lançar inimigos
@@ -54,11 +60,11 @@ public class Main{
 
 			}
 			//atualização das entidades
-			player.atualizar(GameLib.iskeyPressed(GameLib.KEY_UP), GameLib.iskeyPressed(GameLib.KEY_DOWN), GameLib.iskeyPressed(GameLib.KEY_LEFT), GameLib.iskeyPressed(GameLib.KEY_RIGHT), delta);)//player
+			player.atualizar(GameLib.iskeyPressed(GameLib.KEY_UP), GameLib.iskeyPressed(GameLib.KEY_DOWN), GameLib.iskeyPressed(GameLib.KEY_LEFT), GameLib.iskeyPressed(GameLib.KEY_RIGHT), delta);//player
 			
 			if(GameLib.iskeyPressed (GameLib.KEY_CONTROL) && player.getState()==1){
 				if(currentTime > player.getNextShot()){
-					Projetil_p tirop = new Projetil_p(player.getX(), player.getY() - 2*getRadius());
+					Projetil_p tirop = new Projetil_p(player.getX(), player.getY() - 2*(player.getRadius()));
 					projeteisPlayer.add(tirop);
 					player.setNextShot(currentTime + 120);
 				}
@@ -72,13 +78,14 @@ public class Main{
 				}
 			}
 			
-			for(int i=0; i<projeiteisEnemy.size(i); i++){
+			for(int i=0; i<projeteisEnemy.size(); i++){
 				Projetil ep = projeteisEnemy.get(i);
 				ep.atualizar(delta);
 				if(ep.getState()==0){
 					projeteisEnemy.remove(i);
 					i--;
 				}
+			}
 			for(int i=0; i <inimigos.size(); i++){
 				Enemy e = inimigos.get(i);
 				e.atualizar(delta,currentTime,player,projeteisEnemy);
@@ -104,11 +111,8 @@ public class Main{
 			
 			busyWait(currentTime +3);		
 			
-			}
-					
-				
 		}
-        System.exit(0);
+		System.exit(0);
 	}
 }
 
