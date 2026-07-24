@@ -2,13 +2,13 @@
 public abstract class Projetil{
   
 	//atributos
-	protected int state; 
+	protected int state;
 	protected double x;
 	protected double y;
 	protected double vx;
 	protected double vy;
 
-  //getters e setters
+    //getters e setters
 	public double getX() { return x; }
     public void setX(double x) { this.x = x; }
 
@@ -24,7 +24,7 @@ public abstract class Projetil{
     public int getState() { return state; }
     public void setState(int state) { this.state = state; }
 
-  //métodos
+    //métodos
 	public abstract void atualizar (long delta);
 	public abstract void desenhar();
-} 
+}

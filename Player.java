@@ -11,7 +11,7 @@ public class Player implements Entidade {
     public Player(double x, double y) {
         this.x = x;
         this.y = y;
-        this.state = ACTIVE; 
+        this.state = ACTIVE;
         this.radius = 12.0;
         this.velocidade = 0.25;
     }
@@ -41,7 +41,7 @@ public class Player implements Entidade {
     public void setVelocidade(double velocidade) { this.velocidade = velocidade; }
 
     public void atualizar(boolean keyPressedUP, boolean keyPressedDOWN, boolean keyPressedLEFT, boolean keyPressedRIGHT, long delta) {
-        if(this.state != ACTIVE) return; 
+        if(this.state != ACTIVE) return;
         
         if(keyPressedDOWN) this.y += delta * this.velocidade;
         if(keyPressedUP) this.y -= delta * this.velocidade;
@@ -55,7 +55,7 @@ public class Player implements Entidade {
     }
 
     public void desenhaPlayer(long currentTime) {
-        if(this.state == EXPLODING) { 
+        if(this.state == EXPLODING) {
             double alpha = ((currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start));
             GameLib.drawExplosion(this.x, this.y, alpha);
         }

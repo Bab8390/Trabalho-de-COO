@@ -6,8 +6,8 @@ public class EnemyProjectile extends Projectile {
         this.y = y;
         this.vx = vx;
         this.vy = vy;
-        this.state = ACTIVE; 
-        this.radius = 2.0; 
+        this.state = ACTIVE;
+        this.radius = 2.0;
     }
 
     public double getRadius() { return radius; }
@@ -15,10 +15,10 @@ public class EnemyProjectile extends Projectile {
 
     @Override
     public void atualizar(long delta) {
-        if(this.state == ACTIVE) { 
+        if(this.state == ACTIVE) {
             
-            if(this.y > GameLib.HEIGHT) { 
-                this.state = INACTIVE; 
+            if(this.y > GameLib.HEIGHT) {
+                this.state = INACTIVE;
             } else {
                 this.x += this.vx * delta;
                 this.y += this.vy * delta;
