@@ -8,7 +8,7 @@ public class Projetil_p extends Projetil {
         this.vx = 0.0;
         this.vy = -1.0;
         this.state = Main.ACTIVE;
-        this.radius = 1.0; 
+        this.radius = 0.0; 
     }
 
     @Override
