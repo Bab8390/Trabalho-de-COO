@@ -1,7 +1,9 @@
-public class Enemy1 extends Enemy {
-    private int state;
+public abstract class Enemy1 extends Enemy {
+    private int states;
     private double x;
     private double y;
+    private double vx;
+    private double vy;
     private double radius;
     private double explosion_start;
     private double explosion_end;
@@ -24,7 +26,7 @@ public class Enemy1 extends Enemy {
     public void setNextShot(long nextShot) { this.nextShot = nextShot; }
 
     public void atualiza(long delta, long currentTime, Player player, ArrayList<Projectile> TirosInimigo){
-        for(int i = 0; i < enemy1_states.length; i++){
+        for(int i = 0; i < this.states.length; i++){
 
             if(this.states == EXPLODING){
 
@@ -45,14 +47,9 @@ public class Enemy1 extends Enemy {
                     this.y += this.vy * Math.sin(this.angle) * delta * (-1.0);
                     this.angle += this.RV * delta;
 
-                    if(currentTime > this.nextShoot && this.y < player.getY()){
-                        projetil = new EnemyProjectile
-                            e_projectile_X[free] = this.x;
-                            e_projectile_Y[free] = this.y;
-                            e_projectile_VX[free] = Math.cos(enemy1_angle[i]) * 0.45;
-                            e_projectile_VY[free] = Math.sin(enemy1_angle[i]) * 0.45 * (-1.0);
-                            e_projectile_states[free] = ACTIVE;
-                            this.nextShoot = (long) (currentTime + 200 + Math.random() * 500);
+                    if(currentTime > this.nextShot && this.y < player.getY()){
+                        Projetil_e projetil = new Projetil_e(this.x, this.y, Math.cos(this.angle) * 0.45, Math.sin(this.angle) * 0.45 * (-1.0));
+                        this.nextShot = (long) (currentTime + 200 + Math.random() * 500);
                     }
                 }
             }
@@ -62,7 +59,6 @@ public class Enemy1 extends Enemy {
 
     public void desenhaEnemy(long currentTime){ //vai desenhar o inimigo
         for(int i = 0; i < this.states.length; i++){
-
             if(this.states == EXPLODING){
                 double alpha = (currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start);
                 GameLib.drawExplosion(this.x, this.y, alpha);
