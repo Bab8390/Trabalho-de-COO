@@ -14,7 +14,7 @@ public class Player implements Entidade {
     public Player(double x, double y) {
         this.x = x;
         this.y = y;
-        this.state = ACTIVE;
+        this.state = Entidade.ACTIVE;
         this.radius = 12.0;
         this.velocidade = 0.25;
     }
@@ -45,7 +45,7 @@ public class Player implements Entidade {
 
     public void atualizar(boolean keyPressedUP, boolean keyPressedDOWN, boolean keyPressedLEFT, boolean keyPressedRIGHT, long delta, long currentTime) {
         
-        if(this.state == ACTIVE) {
+        if(this.state == Entidade.ACTIVE) {
             if(keyPressedDOWN) this.y += delta * this.velocidade;
             if(keyPressedUP) this.y -= delta * this.velocidade;
             if(keyPressedLEFT) this.x -= delta * this.velocidade;
@@ -58,19 +58,19 @@ public class Player implements Entidade {
         }
         
         // Se a nave estiver EXPLODINDO, o jogo agora consegue ler isso:
-        else if(this.state == EXPLODING) {
+        else if(this.state == Entidade.EXPLODING) {
             if(currentTime >= this.explosion_end) {
-                this.state = INACTIVE;
+                this.state = Entidade.INACTIVE;
             }
         }
     }
 
     public void desenhaPlayer(long currentTime) {
-        if (this.state == Main.ACTIVE) {
+        if (this.state == Entidade.ACTIVE) {
             GameLib.setColor(Color.BLUE);
             GameLib.drawPlayer(this.x, this.y, this.radius);
         } 
-        else if (this.state == Main.EXPLODING) {
+        else if (this.state == Entidade.EXPLODING) {
             double alpha = (double) (currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start);
             
             // Travas de segurança para não crashar o jogo!
