@@ -1,4 +1,4 @@
-public abstract class Enemy implements entidade {
+public abstract class Enemy implements Entidade {
     protected int state;
     protected double x;
     protected double y;

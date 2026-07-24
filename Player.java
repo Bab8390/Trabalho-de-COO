@@ -1,4 +1,4 @@
-public class Player implements entidade {
+public class Player implements Entidade {
     private int state;
     private double x;
     private double y;
