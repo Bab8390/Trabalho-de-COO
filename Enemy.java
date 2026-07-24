@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Enemy implements Entidade {
     protected int state;
     protected double x;
