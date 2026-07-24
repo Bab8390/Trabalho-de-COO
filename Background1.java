@@ -1,17 +1,9 @@
 public class Background1 extends Background {
-    private double x;
-    private double y;
-    private double velocidade;
-    private double count;
 
-    public Background1(double x, double y, double velocidade) {
-        super(x, y, velocidade);
-        this.x = x;
-        this.y = y;
-        this.velocidade = 0.045;
-        this.count = 0.0;
+    public Background1(int estrelas, double velocidade) {
+        super(estrelas, velocidade); //no caso aqui seria passado o numero de estrelas (20) e a velocidade ()
+
     }
-
     @Override
     public void desenhaBackground(long delta) {
         GameLib.setColor(Color.GRAY);
