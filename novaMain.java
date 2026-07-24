@@ -78,7 +78,7 @@ public class Main {
             }
             // =======================================================
 
-            // Substituído o '1' por 'Main.ACTIVE'
+            // Substituído o '1' por 'Entidade.ACTIVE'
             if (GameLib.iskeyPressed(GameLib.KEY_CONTROL) && player.getState() == Entidade.ACTIVE) {
                 if (currentTime > player.getNextShot()) {
                     Projetil_p tirop = new Projetil_p(player.getX(), player.getY() - 2 * player.getRadius());
