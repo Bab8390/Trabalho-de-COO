@@ -15,7 +15,7 @@ public class Enemy1 extends Enemy {
     public long getNextShot() { return nextShot; }
     public void setNextShot(long nextShot) { this.nextShot = nextShot; }
 
-    public void atualiza(long delta, long currentTime, Player player, ArrayList<Projectile> TirosInimigo){
+    public void atualizar(long delta, long currentTime, Player player, ArrayList<Projectile> TirosInimigo){
         for(int i = 0; i < this.states.length; i++){
 
             if(this.states == EXPLODING){
