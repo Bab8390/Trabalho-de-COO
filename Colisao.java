@@ -2,11 +2,12 @@ public class Colisões {
     public static void verificarColisoes(long currentTime, Player player, ArrayList<Projetil> playerProjectiles, ArrayList<Projetil> enemyProjectiles, ArrayList<Enemy> enemies) {
         if(player.getState() == Entidade.ACTIVE){
             colisõesProjeteisvsEnemies(currentTime, playerProjectiles, enemies);
-			
-
+			colisõesPlayervsEnemies(currentTime, player, enemies);
+			colisõesEnemysProjeteisvsPlayer(currentTime, player, enemyProjectiles);
 
         }
     }
+    
     public static void colisõesProjeteisvsEnemies(long currentTime, ArrayList<Projetil> playerProjectiles, ArrayList<Enemy> enemies) {
 		/* colisões projeteis(player) - inimigo */
         for(Projetil ep : playerProjectiles){
@@ -19,7 +20,7 @@ public class Colisões {
                         if(dist < enemy.getRadius()){
                             enemy.setState(Entidade.EXPLODING);
                             enemy.setExplosion_start(currentTime);
-                            enemy.setExplosion_end(currentTime + 2000);
+                            enemy.setExplosion_end(currentTime + 500);
                             ep.setState(Entidade.INACTIVE);
                         }
                     }
@@ -27,6 +28,7 @@ public class Colisões {
             }
         }
     }
+
     public static void colisõesPlayervsEnemies(long currentTime, Player player, ArrayList<Enemy> enemies) {		
 	    /* colisões player - inimigos */			
 	    for(Enemy enemy : enemies){
@@ -42,3 +44,20 @@ public class Colisões {
             }
         }
     }
+
+	public static void colisõesEnemysProjeteisvsPlayer(long currentTime, Player player, ArrayList<Projetil> enemyProjectiles) {		
+        /* colisões projeteis (inimigos) - player */			
+		for(Projetil ep : enemyProjectiles){
+			if(ep.getState() == Entidade.ACTIVE){
+				double dx = ep.getX() - player.getX();
+				double dy = ep.getY() - player.getY();
+				double dist = Math.sqrt(dx * dx + dy * dy);
+				if(dist < (player.getRadius() + ep.getRadius()) * 0.8){
+					player.setState(Entidade.EXPLODING);
+					player.setExplosion_start(currentTime);
+					player.setExplosion_end(currentTime + 2000);
+				}
+			}
+		}
+	}
+}
