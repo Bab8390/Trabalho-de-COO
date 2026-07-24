@@ -1,4 +1,4 @@
-public class Colisões {
+public class Colisao {
     public static void verificarColisoes(long currentTime, Player player, ArrayList<Projetil> playerProjectiles, ArrayList<Projetil> enemyProjectiles, ArrayList<Enemy> enemies) {
         if(player.getState() == Entidade.ACTIVE){
             colisõesProjeteisvsEnemies(currentTime, playerProjectiles, enemies);
