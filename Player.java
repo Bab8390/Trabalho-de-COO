@@ -1,3 +1,6 @@
+
+import java.awt.Color;
+
 public class Player implements Entidade {
     private int state;
     private double x;
@@ -40,28 +43,41 @@ public class Player implements Entidade {
     public double getVelocidade() { return velocidade; }
     public void setVelocidade(double velocidade) { this.velocidade = velocidade; }
 
-    public void atualizar(boolean keyPressedUP, boolean keyPressedDOWN, boolean keyPressedLEFT, boolean keyPressedRIGHT, long delta) {
-        if(this.state != ACTIVE) return;
+    public void atualizar(boolean keyPressedUP, boolean keyPressedDOWN, boolean keyPressedLEFT, boolean keyPressedRIGHT, long delta, long currentTime) {
         
-        if(keyPressedDOWN) this.y += delta * this.velocidade;
-        if(keyPressedUP) this.y -= delta * this.velocidade;
-        if(keyPressedLEFT) this.x -= delta * this.velocidade;
-        if(keyPressedRIGHT) this.x += delta * this.velocidade;
+        if(this.state == ACTIVE) {
+            if(keyPressedDOWN) this.y += delta * this.velocidade;
+            if(keyPressedUP) this.y -= delta * this.velocidade;
+            if(keyPressedLEFT) this.x -= delta * this.velocidade;
+            if(keyPressedRIGHT) this.x += delta * this.velocidade;
+            
+            if(this.x < 0.0) this.x = 0.0;
+            if(this.x >= GameLib.WIDTH) this.x = GameLib.WIDTH - 1;
+            if(this.y < 25.0) this.y = 25.0;
+            if(this.y >= GameLib.HEIGHT) this.y = GameLib.HEIGHT - 1;
+        }
         
-        if(this.x < 0.0) this.x = 0.0;
-        if(this.x >= GameLib.WIDTH) this.x = GameLib.WIDTH - 1;
-        if(this.y < 25.0) this.y = 25.0;
-        if(this.y >= GameLib.HEIGHT) this.y = GameLib.HEIGHT - 1;
+        // Se a nave estiver EXPLODINDO, o jogo agora consegue ler isso:
+        else if(this.state == EXPLODING) {
+            if(currentTime >= this.explosion_end) {
+                this.state = INACTIVE;
+            }
+        }
     }
 
     public void desenhaPlayer(long currentTime) {
-        if(this.state == EXPLODING) {
-            double alpha = ((currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start));
-            GameLib.drawExplosion(this.x, this.y, alpha);
-        }
-        if(this.state == ACTIVE) {
+        if (this.state == Main.ACTIVE) {
             GameLib.setColor(Color.BLUE);
             GameLib.drawPlayer(this.x, this.y, this.radius);
+        } 
+        else if (this.state == Main.EXPLODING) {
+            double alpha = (double) (currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start);
+            
+            // Travas de segurança para não crashar o jogo!
+            if (alpha > 1.0) alpha = 1.0; 
+            if (alpha < 0.0) alpha = 0.0;
+            
+            GameLib.drawExplosion(this.x, this.y, alpha);
         }
     }
 }
