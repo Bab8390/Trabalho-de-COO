@@ -38,7 +38,7 @@ public class Enemy1 extends Enemy {
 
                     if(currentTime > this.nextShot && this.y < player.getY()){
                         Projetil_e projetil = new Projetil_e(this.x, this.y, Math.cos(this.angle) * 0.45, Math.sin(this.angle) * 0.45 * (-1.0));
-                        projeteisEnemy.add(projetil)
+                        projeteisEnemy.add(projetil);
                         this.nextShot = (long) (currentTime + 200 + Math.random() * 500);
                     }
                 }
