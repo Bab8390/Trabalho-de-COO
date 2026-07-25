@@ -1,26 +1,13 @@
+import java.io.File;
+import java.io.IOException;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.File;
-import java.io.IOException;
 
-/**
- * Encapsula a reprodução de um arquivo de áudio (música de fundo ou efeito
- * sonoro) usando exclusivamente javax.sound.sampled, que faz parte do JDK
- * padrão — sem depender de nenhuma biblioteca externa, o que é importante
- * porque o ambiente de correção só garante o JDK puro (ver enunciado).
- *
- * Só entende arquivos WAV/AIFF/AU não comprimidos (PCM). Não toca MP3.
- *
- * Se o arquivo não puder ser carregado (não encontrado, formato não
- * suportado, dispositivo de áudio indisponível), a classe não lança
- * exceção para o resto do jogo: apenas registra o problema e os métodos
- * de reprodução viram no-op. Assim, um problema de áudio nunca derruba o
- * jogo em si.
- */
+// tem que converter o arquivo de musica para MP3 -> WAV
 public class Som {
 
     private Clip clip;
@@ -60,7 +47,7 @@ public class Som {
         if (clip == null || !clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) return;
 
         FloatControl controle = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        float dB = (float) (Math.log10(Math.max(volume, 0.0001)) * 20.0);
+        float dB = (float) (Math.log10(Math.max(volume, 0.0001)) * 10.0);
         dB = Math.max(controle.getMinimum(), Math.min(controle.getMaximum(), dB));
         controle.setValue(dB);
     }
