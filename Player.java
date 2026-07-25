@@ -86,7 +86,7 @@ public class Player implements Entidade {
     }
 
     public void desenharVidasPlayer() {
-        int vidasRestantes = this.vida.getPontos(); // Obtém o número de vidas restantes do jogador
+        int vidasRestantes = this.vida.getPontos(); // obtém o número de vidas restantes do jogador
         double startX = 30.0;
         double y = GameLib.HEIGHT - 30.0;
         double tamanho = 6.0;
@@ -95,7 +95,7 @@ public class Player implements Entidade {
         for (int i = 0; i < vidasRestantes; i++) {
             double x = startX + (i * 20.0);
         
-        // Desenha um formato simples de coração utilizando a GameLib
+            // desenha um coração utilizando a GameLib
             GameLib.drawCircle(x - tamanho/2, y - tamanho/2, tamanho/2);
             GameLib.drawCircle(x + tamanho/2, y - tamanho/2, tamanho/2);
             GameLib.drawLine(x - tamanho, y - tamanho/4, x, y + tamanho);
@@ -122,14 +122,14 @@ public class Player implements Entidade {
             if(this.y >= GameLib.HEIGHT) this.y = GameLib.HEIGHT - 1;
         }
         
-        // Se a nave estiver EXPLODINDO, o jogo agora consegue ler isso:
+        // se a nave estiver EXPLODINDO, o jogo agora consegue ler isso:
         else if(this.state == Entidade.EXPLODING) {
             if(currentTime >= this.explosion_end) {
                 if (this.vida.estaMorto()) {
-                    // Sem mais pontos de vida: fica INACTIVE definitivamente (fim de jogo).
+                    // sem mais pontos de vida: fica INACTIVE definitivamente (fim de jogo).
                     this.state = Entidade.INACTIVE;
                 } else {
-                    // Ainda tem vida: renasce na posição inicial.
+                    // ainda tem vida: renasce na posição inicial.
                     this.x = this.spawnX;
                     this.y = this.spawnY;
                     this.state = Entidade.ACTIVE;
@@ -143,7 +143,7 @@ public class Player implements Entidade {
             GameLib.setColor(Color.BLUE);
             GameLib.drawPlayer(this.x, this.y, this.radius);
             desenharVidasPlayer();
-            if (this.escudoAtivo) { // Se o escudo estiver ativo, desenha um círculo em volta da nave
+            if (this.escudoAtivo) { // se o escudo estiver ativo, desenha um círculo em volta da nave
                 GameLib.setColor(Color.PINK);
                 GameLib.drawCircle(this.x, this.y, this.radius * 1.6);
             }
@@ -151,7 +151,7 @@ public class Player implements Entidade {
         else if (this.state == Entidade.EXPLODING) {
             double alpha = (double) (currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start);
             
-            // Travas de segurança para não crashar o jogo!
+            // travas de segurança para não crashar o jogo!
             if (alpha > 1.0) alpha = 1.0; 
             if (alpha < 0.0) alpha = 0.0;
             
