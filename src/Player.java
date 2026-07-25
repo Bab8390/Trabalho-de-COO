@@ -75,7 +75,6 @@ public class Player implements Entidade {
 
     public void ativarEscudo(long duracao) { //ativa o escudo do player
         this.escudoAtivo = true;
-        this.vida.curar(1); // Ganha uma vida ao ativar o escudo
         this.escudoFim = System.currentTimeMillis() + duracao;
     }
 
