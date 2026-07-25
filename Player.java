@@ -85,22 +85,22 @@ public class Player implements Entidade {
         return this.vida.estaMorto() && this.state == Entidade.INACTIVE;
     }
 
-    public void desenharBarraDeVidaPlayer(){
-        double largura = 240.0;
-        double altura = 10.0;
-        double xCentro = GameLib.WIDTH / 2.0;
+    public void desenharVidasPlayer() {
+        int vidasRestantes = this.vida.getPontos(); // Obtém o número de vidas restantes do jogador
+        double startX = 30.0;
+        double y = GameLib.HEIGHT - 30.0;
+        double tamanho = 6.0;
 
-        // Empurre a barra para baixo para fugir da barra de título da janela!
-        double yCentro = 10.0; 
-
-        double larguraAtual = largura * this.vida.getPercentual();
-        double xCentroAtual = xCentro - (largura - larguraAtual) / 2.0;
-
-        GameLib.setColor(Color.DARK_GRAY);
-        GameLib.fillRect(xCentro, yCentro, largura, altura);
-
-        GameLib.setColor(Color.GREEN);
-        GameLib.fillRect(xCentroAtual, yCentro, larguraAtual, altura);
+        GameLib.setColor(Color.RED);
+        for (int i = 0; i < vidasRestantes; i++) {
+            double x = startX + (i * 20.0);
+        
+        // Desenha um formato simples de coração utilizando a GameLib
+            GameLib.drawCircle(x - tamanho/2, y - tamanho/2, tamanho/2);
+            GameLib.drawCircle(x + tamanho/2, y - tamanho/2, tamanho/2);
+            GameLib.drawLine(x - tamanho, y - tamanho/4, x, y + tamanho);
+            GameLib.drawLine(x + tamanho, y - tamanho/4, x, y + tamanho);
+        }
     }
 
 
@@ -142,7 +142,7 @@ public class Player implements Entidade {
         if (this.state == Entidade.ACTIVE) {
             GameLib.setColor(Color.BLUE);
             GameLib.drawPlayer(this.x, this.y, this.radius);
-            desenharBarraDeVidaPlayer();
+            desenharVidasPlayer();
             if (this.escudoAtivo) { // Se o escudo estiver ativo, desenha um círculo em volta da nave
                 GameLib.setColor(Color.PINK);
                 GameLib.drawCircle(this.x, this.y, this.radius * 1.6);
