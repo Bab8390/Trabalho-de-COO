@@ -32,7 +32,10 @@ public class Colisao {
     }
 
     public static void colisõesPlayervsEnemies(long currentTime, Player player, ArrayList<Enemy> enemies) {		
-	    /* colisões player - inimigos */			
+	    /* colisões player - inimigos */
+        if(player.escudoAtivo) {
+            return; // Se o escudo estiver ativo, não verifica colisões com inimigos
+        }			
 	    for(Enemy enemy : enemies){
             if(enemy.getState() == Entidade.ACTIVE){
 			    double dx = enemy.getX() - player.getX();
@@ -48,7 +51,10 @@ public class Colisao {
     }
 
 	public static void colisõesEnemysProjeteisvsPlayer(long currentTime, Player player, ArrayList<Projetil> enemyProjectiles) {		
-        /* colisões projeteis (inimigos) - player */			
+        /* colisões projeteis (inimigos) - player */
+        if(player.escudoAtivo) {
+            return; // Se o escudo estiver ativo, não verifica colisões com projéteis
+        }
 		for(Projetil ep : enemyProjectiles){
 			if(ep.getState() == Entidade.ACTIVE){
 				double dx = ep.getX() - player.getX();

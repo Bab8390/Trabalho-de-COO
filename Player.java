@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 
 public class Player implements Entidade {
@@ -11,12 +10,28 @@ public class Player implements Entidade {
     private long nextShot;
     private double velocidade;
 
-    public Player(double x, double y) {
+    private final double spawnX;
+    private final double spawnY;
+
+    private final Vida vida;
+
+    private int numTiros;
+    private static final int MAX_TIROS = 3;
+
+    public boolean escudoAtivo;
+    private long escudoFim;
+
+    public Player(double x, double y, int pontosVida) {
         this.x = x;
         this.y = y;
         this.state = Entidade.ACTIVE;
         this.radius = 12.0;
         this.velocidade = 0.25;
+        this.spawnX = x;
+        this.spawnY = y;
+        this.vida = new Vida(pontosVida); 
+        this.numTiros = 1;
+        this.escudoAtivo = false;  
     }
 
     @Override
@@ -50,8 +65,32 @@ public class Player implements Entidade {
     public double getVelocidade() { return velocidade; }
     public void setVelocidade(double velocidade) { this.velocidade = velocidade; }
 
+    public Vida getVida() { return vida; } //pegar a vida do player
+
+    public int getNumTiros() { return numTiros; } //pegar o número de tiros do player
+
+    public void melhorarTiro() { //power-up que aumenta o número de tiros do player
+        if (this.numTiros < MAX_TIROS) this.numTiros++;
+    }
+
+    public void ativarEscudo(long duracao) { //ativa o escudo do player
+        this.escudoAtivo = true;
+        this.escudoFim = System.currentTimeMillis() + duracao;
+    }
+
+    public boolean isEscudoAtivo() { return escudoAtivo; } //verifica se o escudo está ativo
+
+    public boolean isGameOver() { //verifica se o jogo acabou, ou seja, se o player está morto e inativo
+        return this.vida.estaMorto() && this.state == Entidade.INACTIVE;
+    }
+
+
     public void atualizar(boolean keyPressedUP, boolean keyPressedDOWN, boolean keyPressedLEFT, boolean keyPressedRIGHT, long delta, long currentTime) {
         
+        if (this.escudoAtivo && currentTime >= this.escudoFim) {
+            this.escudoAtivo = false;
+        }
+
         if(this.state == Entidade.ACTIVE) {
             if(keyPressedDOWN) this.y += delta * this.velocidade;
             if(keyPressedUP) this.y -= delta * this.velocidade;
@@ -67,7 +106,15 @@ public class Player implements Entidade {
         // Se a nave estiver EXPLODINDO, o jogo agora consegue ler isso:
         else if(this.state == Entidade.EXPLODING) {
             if(currentTime >= this.explosion_end) {
-                this.state = Entidade.INACTIVE;
+                if (this.vida.estaMorto()) {
+                    // Sem mais pontos de vida: fica INACTIVE definitivamente (fim de jogo).
+                    this.state = Entidade.INACTIVE;
+                } else {
+                    // Ainda tem vida: renasce na posição inicial.
+                    this.x = this.spawnX;
+                    this.y = this.spawnY;
+                    this.state = Entidade.ACTIVE;
+                }
             }
         }
     }
@@ -76,6 +123,10 @@ public class Player implements Entidade {
         if (this.state == Entidade.ACTIVE) {
             GameLib.setColor(Color.BLUE);
             GameLib.drawPlayer(this.x, this.y, this.radius);
+            if (this.escudoAtivo) { // Se o escudo estiver ativo, desenha um círculo em volta da nave
+                GameLib.setColor(Color.PINK);
+                GameLib.drawCircle(this.x, this.y, this.radius * 1.6);
+            }
         } 
         else if (this.state == Entidade.EXPLODING) {
             double alpha = (double) (currentTime - this.explosion_start) / (this.explosion_end - this.explosion_start);
