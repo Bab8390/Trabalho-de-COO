@@ -62,9 +62,12 @@ public class Main {
         faseAtual.iniciar(currentTime);
 
         GameLib.initGraphics();
+
         Som musicaFundo = new Som("sons/musica_fundo.wav");
         musicaFundo.setVolume(0.5f);
         musicaFundo.tocarEmLoop();
+        Som somTiro = new Som("sons/tiro.wav");
+        somTiro.setVolume(0.4f);
 
         // =======================================================
         // 3. GAME LOOP
@@ -84,6 +87,7 @@ public class Main {
             if (GameLib.iskeyPressed(GameLib.KEY_CONTROL) && player.getState() == Entidade.ACTIVE) {
                 if (currentTime > player.getNextShot()) {
                     dispararTiroJogador(player, projeteisPlayer);
+                    somTiro.tocarUmaVez();
                     player.setNextShot(currentTime + 120);
                 }
             }
