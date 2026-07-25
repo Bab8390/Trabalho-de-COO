@@ -31,20 +31,24 @@ public abstract class Special_enemy extends Enemy implements Danificavel {
         if (this.y > GameLib.HEIGHT - this.radius) this.y = GameLib.HEIGHT - this.radius;
     }
 
-    //Vai desenhar a barra de vida restante do chefe
+// Vai desenhar a barra de vida restante do chefe
     public void desenharBarraDeVida(){
         double largura = 240.0;
         double altura = 10.0;
         double xCentro = GameLib.WIDTH / 2.0;
-        double yCentro = 22.0;
 
-        GameLib.setColor(Color.RED);
-        GameLib.fillRect(xCentro, yCentro, largura, altura);
+        // Empurre a barra para baixo para fugir da barra de título da janela!
+        double yCentro = 50.0; 
 
         double larguraAtual = largura * this.vida.getPercentual();
         double xCentroAtual = xCentro - (largura - larguraAtual) / 2.0;
 
-        GameLib.setColor(Color.RED);
+        // 1. Pinta o fundo da barra (Vida perdida) de Vermelho ou Cinza Escuro
+        GameLib.setColor(Color.DARK_GRAY);
+        GameLib.fillRect(xCentro, yCentro, largura, altura);
+
+        // 2. Pinta a barra de vida atual por cima de Verde
+        GameLib.setColor(Color.GREEN);
         GameLib.fillRect(xCentroAtual, yCentro, larguraAtual, altura);
     }
 }
