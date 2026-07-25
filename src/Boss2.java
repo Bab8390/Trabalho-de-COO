@@ -14,12 +14,14 @@ public class Boss2 extends Special_enemy {
 
     private long nextShot;
     private double anguloOrbita;
+    private double anguloRotacao;
 
     public Boss2(double x, double y, int pontosVida) {
         super(x, y, pontosVida);
         this.radius = 34.0;
         this.velocidade = 0.0016; // velocidade angular (rad/ms)
         this.anguloOrbita = 0.0;
+        this.anguloRotacao = 0.0;
         this.nextShot = 0;
     }
 
@@ -36,7 +38,7 @@ public class Boss2 extends Special_enemy {
         if (this.state != Entidade.ACTIVE) return;
 
         if (this.y < ALTURA_ORBITA) {
-            this.y += 0.10 * delta;
+            this.y += 0.05 * delta;
         } else {
             this.anguloOrbita += this.velocidade * delta;
             this.x = GameLib.WIDTH / 2.0 + Math.cos(this.anguloOrbita) * RAIO_ORBITA;
@@ -44,12 +46,16 @@ public class Boss2 extends Special_enemy {
         }
         manterDentroDaTela();
 
-        long intervalo = this.vida.getPercentual() < 0.5 ? 220 : 450;
+        double velRotacao = this.vida.getPercentual() < 0.5 ? 0.005 : 0.0025;
+        this.anguloRotacao += velRotacao * delta;
+
+        long intervalo = this.vida.getPercentual() < 0.5 ? 180 : 350;
         if (currentTime > this.nextShot) {
-            int nTiros = 8;
+            int nTiros = 10;
+            double velocidadeTiro = 0.25;
             for (int i = 0; i < nTiros; i++) {
-                double a = (2 * Math.PI / nTiros) * i;
-                tirosInimigo.add(new Projetil_e(this.x, this.y, Math.cos(a) * 0.28, Math.sin(a) * 0.28));
+                double a = (2 * Math.PI / nTiros) * i * this.anguloRotacao;
+                tirosInimigo.add(new Projetil_e(this.x, this.y, Math.cos(a) * velocidadeTiro, Math.sin(a) * velocidadeTiro));
             }
             this.nextShot = currentTime + intervalo;
         }
@@ -64,11 +70,17 @@ public class Boss2 extends Special_enemy {
         }
 
         if (this.state == Entidade.ACTIVE) {
-            GameLib.setColor(Color.YELLOW);
+            GameLib.setColor(Color.WHITE);
             GameLib.drawCircle(this.x, this.y, this.radius);
-            GameLib.drawCircle(this.x, this.y, this.radius * 0.5);
-            GameLib.drawCircle(this.x, this.y, this.radius * 1.4);
-            desenharBarraDeVida();
+            GameLib.drawCircle(this.x, this.y, this.radius * 0.4);
+            double px = this.x + Math.cos(this.anguloRotacao) * this.radius;
+            double py = this.y + Math.sin(this.anguloRotacao) * this.radius;
+            
+            GameLib.drawCircle(px, py, 6.0);
+
+            GameLib.drawLine(this.x, this.y, px, py);
         }
+        GameLib.drawCircle(this.x, this.y, this.radius * 1.3);
+        desenharBarraDeVida();
     }
 }
