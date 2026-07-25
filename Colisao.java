@@ -55,6 +55,7 @@ public class Colisao {
 			    double dy = enemy.getY() - player.getY();
 			    double dist = Math.sqrt(dx * dx + dy * dy);
 			    if(dist < (player.getRadius() + enemy.getRadius()) * 0.8){
+                    player.getVida().sofrerDano(1);
 				    player.setState(Entidade.EXPLODING);
 				    player.setExplosion_start(currentTime);
 				    player.setExplosion_end(currentTime + 2000);
@@ -75,6 +76,7 @@ public class Colisao {
 				double dy = ep.getY() - player.getY();
 				double dist = Math.sqrt(dx * dx + dy * dy);
 				if(dist < (player.getRadius() + ep.getRadius()) * 0.8){
+                    player.getVida().sofrerDano(1);
 					player.setState(Entidade.EXPLODING);
 					player.setExplosion_start(currentTime);
 					player.setExplosion_end(currentTime + 2000);
