@@ -1,25 +1,54 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-public class Main {
+import java.util.List;
 
-    public static final int INACTIVE = 0;
-    public static final int ACTIVE = 1;
-    public static final int EXPLODING = 2;
+public class Main {
 
     public static void busyWait(long time) {
         while (System.currentTimeMillis() < time)
             Thread.yield();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        if (args.length < 1) {
+            System.out.println("Uso: java Main <arquivo_de_configuracao_do_jogo>");
+            return;
+        }
+
+        // =======================================================
+        // 1. LEITURA DO ARQUIVO DE CONFIGURAÇÃO DO JOGO
+        // =======================================================
+        int pontosVidaJogador;
+        List<Fase> fases = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(args[0]))) {
+            pontosVidaJogador = Integer.parseInt(br.readLine().trim());
+            int numeroFases = Integer.parseInt(br.readLine().trim());
+
+            for (int i = 0; i < numeroFases; i++) {
+                String arquivoFase = br.readLine().trim();
+                fases.add(new Fase(arquivoFase));
+            }
+        }
+
+        if (fases.isEmpty()) {
+            System.out.println("Nenhuma fase configurada em " + args[0]);
+            return;
+        }
 
         boolean running = true;
+        boolean vitoria = false;
         long delta;
         long currentTime = System.currentTimeMillis();
 
         // =======================================================
-        // 1. INSTANCIAÇÃO (FORA DO LOOP)
+        // 2. INSTANCIAÇÃO (FORA DO LOOP)
         // =======================================================
-        Player player = new Player(GameLib.WIDTH / 2.0, GameLib.HEIGHT * 0.90, 10); // 10 pontos de vida
+        Player player = new Player(GameLib.WIDTH / 2.0, GameLib.HEIGHT * 0.90, pontosVidaJogador);
+
         ArrayList<Projetil> projeteisPlayer = new ArrayList<>();
         ArrayList<Projetil> projeteisEnemy = new ArrayList<>();
         ArrayList<Enemy> inimigos = new ArrayList<>();
@@ -28,82 +57,37 @@ public class Main {
         Background background1 = new Background1(20, 0.070);
         Background background2 = new Background2(50, 0.045);
 
-        long nextEnemy1 = currentTime + 2000;
-        long nextEnemy2 = currentTime + 7000;
-        double enemy2_spawnX = GameLib.WIDTH * 0.20;
-        int enemy2_count = 0;
+        int faseAtualIndex = 0;
+        Fase faseAtual = fases.get(faseAtualIndex);
+        faseAtual.iniciar(currentTime);
 
         GameLib.initGraphics();
 
         // =======================================================
-        // 2. GAME LOOP
+        // 3. GAME LOOP
         // =======================================================
         while (running) {
 
             delta = System.currentTimeMillis() - currentTime;
             currentTime = System.currentTimeMillis();
 
-            /* Lançamento de Inimigos */
-            if (currentTime > nextEnemy1) {
-                Enemy1 inimigo1 = new Enemy1(Math.random() * (GameLib.WIDTH - 20.0) + 10.0, -10.0);
-                inimigo1.setNextShot(currentTime + 500);
-                inimigos.add(inimigo1);
-                nextEnemy1 = currentTime + 500;
-            }
-
-            if (currentTime > nextEnemy2) {
-                Enemy2 inimigo2 = new Enemy2(enemy2_spawnX, -10.0);
-                inimigos.add(inimigo2);
-                enemy2_count++;
-
-                if (enemy2_count < 10) {
-                    nextEnemy2 = currentTime + 120;
-                } else {
-                    enemy2_count = 0;
-                    enemy2_spawnX = Math.random() > 0.5 ? GameLib.WIDTH * 0.2 : GameLib.WIDTH * 0.8;
-                    nextEnemy2 = (long) (currentTime + 3000 + Math.random() * 3000);
-                }
-            }
+            /* A fase cria os inimigos/chefe/power-ups programados para este instante */
+            faseAtual.atualizar(currentTime, inimigos, powerUps);
 
             /* Atualização do Player e Tiro */
-            player.atualizar(GameLib.iskeyPressed(GameLib.KEY_UP), GameLib.iskeyPressed(GameLib.KEY_DOWN), GameLib.iskeyPressed(GameLib.KEY_LEFT), GameLib.iskeyPressed(GameLib.KEY_RIGHT), delta, currentTime);
+            player.atualizar(GameLib.iskeyPressed(GameLib.KEY_UP), GameLib.iskeyPressed(GameLib.KEY_DOWN),
+                    GameLib.iskeyPressed(GameLib.KEY_LEFT), GameLib.iskeyPressed(GameLib.KEY_RIGHT), delta, currentTime);
 
-            // =======================================================
-            // SISTEMA DE RESPAWN ADICIONADO AQUI
-            // =======================================================
-            if (player.getState() == Entidade.INACTIVE) {
-                // Cria uma nave nova exatamente na posição inicial
-                player = new Player(GameLib.WIDTH / 2.0, GameLib.HEIGHT * 0.90, player.getVida().sofrerDano(1)); // 1 ponto de vida
-            }
-            // =======================================================
-
-            // Substituído o '1' por 'Entidade.ACTIVE'
             if (GameLib.iskeyPressed(GameLib.KEY_CONTROL) && player.getState() == Entidade.ACTIVE) {
                 if (currentTime > player.getNextShot()) {
-                    Projetil_p tirop = new Projetil_p(player.getX(), player.getY() - 2 * player.getRadius());
-                    projeteisPlayer.add(tirop);
+                    dispararTiroJogador(player, projeteisPlayer);
                     player.setNextShot(currentTime + 120);
                 }
             }
 
             /* Atualização das Entidades (Movimento e Remoção) */
-            for (int i = 0; i < projeteisPlayer.size(); i++) {
-                Projetil pp = projeteisPlayer.get(i);
-                pp.atualizar(delta);
-                if (pp.getState() == Entidade.INACTIVE) {
-                    projeteisPlayer.remove(i);
-                    i--;
-                }
-            }
-
-            for (int i = 0; i < projeteisEnemy.size(); i++) {
-                Projetil ep = projeteisEnemy.get(i);
-                ep.atualizar(delta);
-                if (ep.getState() == Entidade.INACTIVE) {
-                    projeteisEnemy.remove(i);
-                    i--;
-                }
-            }
+            atualizarProjeteis(projeteisPlayer, delta);
+            atualizarProjeteis(projeteisEnemy, delta);
 
             for (int i = 0; i < inimigos.size(); i++) {
                 Enemy e = inimigos.get(i);
@@ -114,30 +98,94 @@ public class Main {
                 }
             }
 
-            // =======================================================
-            // ADICIONADO AQUI: CHECAGEM DE COLISÕES
-            // =======================================================
+            for (int i = 0; i < powerUps.size(); i++) {
+                PowerUps p = powerUps.get(i);
+                p.atualizar(delta);
+                if (p.getState() == Entidade.INACTIVE) {
+                    powerUps.remove(i);
+                    i--;
+                }
+            }
+
+            /* Colisões */
             Colisao.verificarColisoes(currentTime, player, projeteisPlayer, projeteisEnemy, inimigos, powerUps);
 
+            /* Fim de jogo por perda de todos os pontos de vida do jogador */
+            if (player.isGameOver()) {
+                running = false;
+            }
+
+            /* Fase concluída (chefe derrotado): avança para a próxima ou vence o jogo */
+            if (faseAtual.isConcluida()) {
+                faseAtualIndex++;
+                if (faseAtualIndex >= fases.size()) {
+                    vitoria = true;
+                    running = false;
+                } else {
+                    faseAtual = fases.get(faseAtualIndex);
+                    inimigos.clear();
+                    projeteisEnemy.clear();
+                    powerUps.clear();
+                    faseAtual.iniciar(currentTime);
+                }
+            }
 
             /* Tecla de sair */
             if (GameLib.iskeyPressed(GameLib.KEY_ESCAPE)) running = false;
 
             // =======================================================
-            // 3. RENDERIZAÇÃO (Desenhando na tela)
+            // 4. RENDERIZAÇÃO
             // =======================================================
             background1.desenhaBackground(delta);
             background2.desenhaBackground(delta);
 
             player.desenhaPlayer(currentTime);
-            
+
             for (Projetil p : projeteisPlayer) p.desenhar();
             for (Projetil p : projeteisEnemy) p.desenhar();
             for (Enemy e : inimigos) e.desenhaEnemy(currentTime);
+            for (PowerUps p : powerUps) p.desenharPowerUp();
 
             GameLib.display();
             busyWait(currentTime + 3);
         }
-		System.exit(0); // Encerra o programa quando o loop termina
+
+        if (vitoria) {
+            System.out.println("=========================================");
+            System.out.println(" PARABENS! VOCE DERROTOU TODOS OS BOSSES E VENCEU O JOGO! ");
+            System.out.println("=========================================");
+        } else {
+            System.out.println("=========================================");
+            System.out.println("                FIM DE JOGO               ");
+            System.out.println("=========================================");
+        }
+    }
+
+    /** Dispara os projéteis do jogador, respeitando o número de tiros simultâneos do power-up de tiro múltiplo. */
+    private static void dispararTiroJogador(Player player, List<Projetil> projeteisPlayer) {
+        int numTiros = player.getNumTiros();
+        double baseX = player.getX();
+        double baseY = player.getY() - 2 * player.getRadius();
+
+        if (numTiros == 1) {
+            projeteisPlayer.add(new Projetil_p(baseX, baseY));
+        } else {
+            double espacamento = 10.0;
+            double inicio = -((numTiros - 1) * espacamento) / 2.0;
+            for (int i = 0; i < numTiros; i++) {
+                projeteisPlayer.add(new Projetil_p(baseX + inicio + i * espacamento, baseY));
+            }
+        }
+    }
+
+    private static void atualizarProjeteis(List<Projetil> projeteis, long delta) {
+        for (int i = 0; i < projeteis.size(); i++) {
+            Projetil p = projeteis.get(i);
+            p.atualizar(delta);
+            if (p.getState() == Entidade.INACTIVE) {
+                projeteis.remove(i);
+                i--;
+            }
+        }
     }
 }
