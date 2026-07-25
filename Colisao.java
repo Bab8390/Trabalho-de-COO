@@ -1,12 +1,14 @@
 import java.util.ArrayList;
 
 public class Colisao {
-    public static void verificarColisoes(long currentTime, Player player, ArrayList<Projetil> playerProjectiles, ArrayList<Projetil> enemyProjectiles, ArrayList<Enemy> enemies) {
+    private static final int DANO_TIRO_PLAYER = 10; // Dano causado por um tiro do jogador contra um inimigo com pontos de vida (Chefe).
+
+    public static void verificarColisoes(long currentTime, Player player, ArrayList<Projetil> playerProjectiles, ArrayList<Projetil> enemyProjectiles, ArrayList<Enemy> enemies, ArrayList<PowerUps> powerUps) {
         if(player.getState() == Entidade.ACTIVE){
             colisõesProjeteisvsEnemies(currentTime, playerProjectiles, enemies);
 			colisõesPlayervsEnemies(currentTime, player, enemies);
 			colisõesEnemysProjeteisvsPlayer(currentTime, player, enemyProjectiles);
-
+            colisõesPlayervsPowerUps(player, powerUps);
         }
     }
     
@@ -20,11 +22,21 @@ public class Colisao {
                         double dy = enemy.getY() - ep.getY();
                         double dist = Math.sqrt(dx * dx + dy * dy);
                         if(dist < enemy.getRadius()){
-                            enemy.setState(Entidade.EXPLODING);
-                            enemy.setExplosion_start(currentTime);
-                            enemy.setExplosion_end(currentTime + 500);
-                            ep.setState(Entidade.INACTIVE);
-                        }
+                            if (enemy instanceof Danificavel danificavel) {
+                                // Boss perde pontos de vida e só explode quando chegar a zero.
+                                danificavel.sofrerDano(DANO_TIRO_PLAYER);
+                                if (danificavel.estaMorto()) {
+                                    enemy.setState(Entidade.EXPLODING);
+                                    enemy.setExplosion_start(currentTime);
+                                    enemy.setExplosion_end(currentTime + 800);
+                                }
+                            }else{
+                                // Inimigo comum: morre com um único tiro.
+                                enemy.setState(Entidade.EXPLODING);
+                                enemy.setExplosion_start(currentTime);
+                                enemy.setExplosion_end(currentTime + 500);
+                            }
+                            ep.setState(Entidade.INACTIVE);}
                     }
                 }
             }
@@ -35,7 +47,8 @@ public class Colisao {
 	    /* colisões player - inimigos */
         if(player.escudoAtivo) {
             return; // Se o escudo estiver ativo, não verifica colisões com inimigos
-        }			
+        }		
+
 	    for(Enemy enemy : enemies){
             if(enemy.getState() == Entidade.ACTIVE){
 			    double dx = enemy.getX() - player.getX();
@@ -55,6 +68,7 @@ public class Colisao {
         if(player.escudoAtivo) {
             return; // Se o escudo estiver ativo, não verifica colisões com projéteis
         }
+
 		for(Projetil ep : enemyProjectiles){
 			if(ep.getState() == Entidade.ACTIVE){
 				double dx = ep.getX() - player.getX();
@@ -68,4 +82,19 @@ public class Colisao {
 			}
 		}
 	}
+
+    public static void colisõesPlayervsPowerUps(Player player, ArrayList<PowerUps> powerUps) {
+        for (PowerUps powerUp : powerUps) {
+            if (powerUp.getState() == Entidade.ACTIVE) {
+                double dx = powerUp.getX() - player.getX();
+                double dy = powerUp.getY() - player.getY();
+                double dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < player.getRadius() + powerUp.getRadius()) {
+                    powerUp.aplicarEfeito(player);
+                    powerUp.setState(Entidade.INACTIVE);
+                }
+            }
+        }
+    }
 }

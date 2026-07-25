@@ -19,5 +19,6 @@ public class PowerUp2 extends PowerUps { // Vai ativar o escudo do jogador e cur
     @Override
     public void aplicarEfeito(Player player) {
         player.ativarEscudo(DURACAO_ESCUDO_MS);
+        player.getVida().curar(1);
     }
 }
