@@ -10,9 +10,10 @@ public class Vida {
         this.pontos = pontosIniciais;
     }
 
-    public void sofrerDano(int dano) {
+    public int sofrerDano(int dano) {
         this.pontos -= dano;
         if (this.pontos < 0) this.pontos = 0;
+        return this.pontos;
     }
 
     public void curar(int quantidade) {

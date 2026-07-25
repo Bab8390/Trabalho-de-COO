@@ -19,10 +19,11 @@ public class Main {
         // =======================================================
         // 1. INSTANCIAÇÃO (FORA DO LOOP)
         // =======================================================
-        Player player = new Player(GameLib.WIDTH / 2.0, GameLib.HEIGHT * 0.90);
+        Player player = new Player(GameLib.WIDTH / 2.0, GameLib.HEIGHT * 0.90, 10); // 10 pontos de vida
         ArrayList<Projetil> projeteisPlayer = new ArrayList<>();
         ArrayList<Projetil> projeteisEnemy = new ArrayList<>();
         ArrayList<Enemy> inimigos = new ArrayList<>();
+        ArrayList<PowerUps> powerUps = new ArrayList<>();
 
         Background background1 = new Background1(20, 0.070);
         Background background2 = new Background2(50, 0.045);
@@ -72,7 +73,7 @@ public class Main {
             // =======================================================
             if (player.getState() == Entidade.INACTIVE) {
                 // Cria uma nave nova exatamente na posição inicial
-                player = new Player(GameLib.WIDTH / 2.0, GameLib.HEIGHT * 0.90);
+                player = new Player(GameLib.WIDTH / 2.0, GameLib.HEIGHT * 0.90, player.getVida().sofrerDano(1)); // 1 ponto de vida
             }
             // =======================================================
 
@@ -116,7 +117,7 @@ public class Main {
             // =======================================================
             // ADICIONADO AQUI: CHECAGEM DE COLISÕES
             // =======================================================
-            Colisao.verificarColisoes(currentTime, player, projeteisPlayer, projeteisEnemy, inimigos);
+            Colisao.verificarColisoes(currentTime, player, projeteisPlayer, projeteisEnemy, inimigos, powerUps);
 
 
             /* Tecla de sair */
