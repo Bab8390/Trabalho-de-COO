@@ -62,6 +62,9 @@ public class Main {
         faseAtual.iniciar(currentTime);
 
         GameLib.initGraphics();
+        Som musicaFundo = new Som("sons/musica_fundo.wav");
+        musicaFundo.setVolume(0.5f);
+        musicaFundo.tocarEmLoop();
 
         // =======================================================
         // 3. GAME LOOP
@@ -154,10 +157,12 @@ public class Main {
             System.out.println("=========================================");
             System.out.println(" PARABENS! VOCE DERROTOU TODOS OS BOSSES E VENCEU O JOGO! ");
             System.out.println("=========================================");
+            musicaFundo.parar();
         } else {
             System.out.println("=========================================");
             System.out.println("                FIM DE JOGO               ");
             System.out.println("=========================================");
+            musicaFundo.parar();
         }
     }
 
