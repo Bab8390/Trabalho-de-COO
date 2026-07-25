@@ -10,7 +10,7 @@ public class Fase {
     private final List<EventoFase> eventos; 
     private int proximoEvento; //numero do proximo evento 
     private long inicioFase; //marca tempo que começou
-    private Chefe chefeDaFase;
+    private Special_enemy chefeDaFase;
 
     public Fase(String arquivoConfig) throws IOException {
         this.eventos = new ArrayList<>();
@@ -73,7 +73,7 @@ public class Fase {
 
     
     //usado pela Main para atualizar a fase, criar inimigos, chefes e powerups no momento certo
-    public void atualizar(long currentTime, List<Enemy> inimigos, List<PowerUp> powerUps) {
+    public void atualizar(long currentTime, List<Enemy> inimigos, List<PowerUps> powerUps) {
         long decorrido = currentTime - this.inicioFase;
 
         //enquanto ainda tiver evento a ser processado e o tempo de fase decorrido for maior ou igual ao tempo do evento.
@@ -95,16 +95,16 @@ public class Fase {
                 }
                 
                 case CHEFE: {
-                    Chefe chefe = ev.tipo() == 1
-                            ? new Chefe1(ev.x(), ev.y(), ev.pontosVida())
-                            : new Chefe2(ev.x(), ev.y(), ev.pontosVida());
+                    Special_enemy chefe = ev.tipo() == 1
+                            ? new Boss1(ev.x(), ev.y(), ev.pontosVida())
+                            : new Boss2(ev.x(), ev.y(), ev.pontosVida());
                     inimigos.add(chefe);
                     this.chefeDaFase = chefe;
                     break;
                 }
                 
                 case POWERUP: {
-                    PowerUp p = ev.tipo() == 1
+                    PowerUps p = ev.tipo() == 1
                             ? new PowerUp1(ev.x(), ev.y())
                             : new PowerUp2(ev.x(), ev.y());
                     powerUps.add(p);
