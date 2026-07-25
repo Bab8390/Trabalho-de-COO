@@ -48,7 +48,7 @@ public abstract class Special_enemy extends Enemy implements Danificavel {
         GameLib.fillRect(xCentro, yCentro, largura, altura);
 
         // 2. Pinta a barra de vida atual por cima de Verde
-        GameLib.setColor(Color.GREEN);
+        GameLib.setColor(Color.RED);
         GameLib.fillRect(xCentroAtual, yCentro, larguraAtual, altura);
     }
 }

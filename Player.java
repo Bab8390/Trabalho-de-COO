@@ -85,6 +85,24 @@ public class Player implements Entidade {
         return this.vida.estaMorto() && this.state == Entidade.INACTIVE;
     }
 
+    public void desenharBarraDeVidaPlayer(){
+        double largura = 240.0;
+        double altura = 10.0;
+        double xCentro = GameLib.WIDTH / 2.0;
+
+        // Empurre a barra para baixo para fugir da barra de título da janela!
+        double yCentro = 10.0; 
+
+        double larguraAtual = largura * this.vida.getPercentual();
+        double xCentroAtual = xCentro - (largura - larguraAtual) / 2.0;
+
+        GameLib.setColor(Color.DARK_GRAY);
+        GameLib.fillRect(xCentro, yCentro, largura, altura);
+
+        GameLib.setColor(Color.GREEN);
+        GameLib.fillRect(xCentroAtual, yCentro, larguraAtual, altura);
+    }
+
 
     public void atualizar(boolean keyPressedUP, boolean keyPressedDOWN, boolean keyPressedLEFT, boolean keyPressedRIGHT, long delta, long currentTime) {
         
@@ -124,6 +142,7 @@ public class Player implements Entidade {
         if (this.state == Entidade.ACTIVE) {
             GameLib.setColor(Color.BLUE);
             GameLib.drawPlayer(this.x, this.y, this.radius);
+            desenharBarraDeVidaPlayer();
             if (this.escudoAtivo) { // Se o escudo estiver ativo, desenha um círculo em volta da nave
                 GameLib.setColor(Color.PINK);
                 GameLib.drawCircle(this.x, this.y, this.radius * 1.6);
