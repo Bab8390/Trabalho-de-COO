@@ -37,17 +37,15 @@ public abstract class Special_enemy extends Enemy implements Danificavel {
         double altura = 10.0;
         double xCentro = GameLib.WIDTH / 2.0;
 
-        // Empurre a barra para baixo para fugir da barra de título da janela!
         double yCentro = 50.0; 
 
         double larguraAtual = largura * this.vida.getPercentual();
         double xCentroAtual = xCentro - (largura - larguraAtual) / 2.0;
 
-        // 1. Pinta o fundo da barra (Vida perdida) de Vermelho ou Cinza Escuro
         GameLib.setColor(Color.DARK_GRAY);
         GameLib.fillRect(xCentro, yCentro, largura, altura);
 
-        // 2. Pinta a barra de vida atual por cima de Verde
+        //pinta a barra de vida atual por cima de Verde
         GameLib.setColor(Color.RED);
         GameLib.fillRect(xCentroAtual, yCentro, larguraAtual, altura);
     }
