@@ -8,7 +8,7 @@ public class Projetil_e extends Projetil {
         this.vx = vx;
         this.vy = vy;
         this.state = Entidade.ACTIVE;
-        this.radius = 2.0; // Ele usa a variável da mãe automaticamente!
+        this.radius = 2.0;
     }
 
     @Override
