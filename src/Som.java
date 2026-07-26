@@ -23,14 +23,14 @@ public class Som {
         }
     }
 
-    /** Toca em loop contínuo, do início — uso típico para música de fundo. */
+    // Toca em loop contínuo, do início
     public void tocarEmLoop() {
         if (clip == null) return;
         clip.setFramePosition(0);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    /** Toca uma única vez, reiniciando do começo — uso típico para efeitos sonoros (tiro, explosão, etc). */
+    //Toca uma única vez, reiniciando do começo 
     public void tocarUmaVez() {
         if (clip == null) return;
         clip.stop();
@@ -42,7 +42,7 @@ public class Som {
         if (clip != null) clip.stop();
     }
 
-    /** @param volume entre 0.0 (mudo) e 1.0 (volume máximo do arquivo original) */
+    //param volume entre 0.0 (mudo) e 1.0 (volume máximo do arquivo original)
     public void setVolume(float volume) {
         if (clip == null || !clip.isControlSupported(FloatControl.Type.MASTER_GAIN)) return;
 
