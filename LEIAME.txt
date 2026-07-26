@@ -14,7 +14,7 @@ Se estiver na pasta bin
 
 1 - Dentro da pasta bin execute o seguinte programa no terminal
 
-	java Main arquivo_config_jogo.txt
+	java Main jogo.txt
 
 Se estiver na pasta src
 
@@ -24,4 +24,4 @@ Se estiver na pasta src
 
 2 - Execute o código usando
 	
-	java Main arquivo_config_jogo.txt
+	java Main jogo.txt
