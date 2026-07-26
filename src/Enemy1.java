@@ -17,7 +17,7 @@ public class Enemy1 extends Enemy {
     public long getNextShot() { return nextShot; }
     public void setNextShot(long nextShot) { this.nextShot = nextShot; }
 
-    @Override !
+    @Override 
     public void atualizar(long delta, long currentTime, Player player, ArrayList<Projetil> TirosInimigo){
         
         if(this.state == Entidade.EXPLODING){
