@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.awt.Color; // 1. Import adicionado
+import java.awt.Color;
 
 public class Enemy2 extends Enemy {
 
@@ -21,14 +21,14 @@ public class Enemy2 extends Enemy {
             GameLib.drawExplosion(this.x, this.y, alpha);
         }
 
-        if (this.state == Entidade.ACTIVE) { // 2. Corrigido para this.state
+        if (this.state == Entidade.ACTIVE) { 
             GameLib.setColor(Color.MAGENTA);
-            GameLib.drawDiamond(this.x, this.y, this.radius); // 3. Corrigido para this.radius
+            GameLib.drawDiamond(this.x, this.y, this.radius); 
         }
     }
 
     @Override
-    public void atualizar(long delta, long currentTime, Player player, ArrayList<Projetil> TirosInimigo) { // 5. Ajustado para Projetil
+    public void atualizar(long delta, long currentTime, Player player, ArrayList<Projetil> TirosInimigo) { 
 
         if (this.state == Entidade.EXPLODING) {
             if (currentTime > this.explosion_end) {
@@ -38,9 +38,8 @@ public class Enemy2 extends Enemy {
 
         if (this.state == Entidade.ACTIVE) {
 
-            /* verificando se inimigo saiu da tela */
             if (this.x < -10 || this.x > GameLib.WIDTH + 10) {
-                this.state = Entidade.INACTIVE; // 4. Removido o vetor antigo!
+                this.state = Entidade.INACTIVE; 
             } else {
 
                 boolean shootNow = false;
@@ -73,7 +72,6 @@ public class Enemy2 extends Enemy {
 
                 if (shootNow) {
                     
-                    // 7. Restaurado o pequeno for() para fazer o Tiro Múltiplo Espalhado
                     double[] angles = { Math.PI / 2 + Math.PI / 8, Math.PI / 2, Math.PI / 2 - Math.PI / 8 };
 
                     for (int k = 0; k < angles.length; k++) {
@@ -82,10 +80,8 @@ public class Enemy2 extends Enemy {
                         double vx = Math.cos(a);
                         double vy = Math.sin(a);
 
-                        // 6. Corrigidas as vírgulas para pontos (0.30)
                         Projetil_e projetil = new Projetil_e(this.x, this.y, vx * 0.30, vy * 0.30);
                         
-                        // 5. Corrigido para TirosInimigo
                         TirosInimigo.add(projetil);
                     }
                 }
