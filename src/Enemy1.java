@@ -31,7 +31,7 @@ public class Enemy1 extends Enemy {
             if(this.y > GameLib.HEIGHT + 10) {
                 this.state = Entidade.INACTIVE;
             } else {
-            '
+            
                 this.x += this.velocidade * Math.cos(this.angle) * delta;
                 this.y += this.velocidade * Math.sin(this.angle) * delta * (-1.0);
                 this.angle += this.rv * delta;
