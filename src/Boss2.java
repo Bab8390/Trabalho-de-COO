@@ -3,10 +3,11 @@ import java.util.ArrayList;
 
 /**
  * Chefe 2 - "Sentinela": entra pelo topo e passa a orbitar em torno de um
- * ponto fixo, disparando rajadas radiais de projéteis em todas as direções
- * (padrão diferente do Chefe1, que mira no jogador). Assim como o Chefe1,
+ * ponto fixo, disparando rajadas radiais de projéteis que vão alternando de 
+ * forma semelhante a um catavento em todas as direções. Assim como o Chefe1,
  * fica mais agressivo abaixo de 50% de vida.
  */
+
 public class Boss2 extends Special_enemy {
 
     private static final double ALTURA_ORBITA = 150.0;
