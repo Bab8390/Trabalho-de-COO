@@ -1,0 +1,27 @@
+Daniel Lagrotaria Braga de Oliveira - 17070525
+Gabriel Menezes Lisboa Ferreira - 16867320
+Pedro Paulo Lourenço Altafini - 16897032
+
+Dentro de cada pasta existem 3 arquivos.txt, se quiser pode utilizar e modificar eles:
+
+	jogo.txt - arquivo de configuração do jogo
+	fase1 - config da fase 1
+	fase2 - config da fase 2
+
+Instruções para compilação e execução do Jogo:
+
+Se estiver na pasta bin
+
+1 - Dentro da pasta bin execute o seguinte programa no terminal
+
+	java Main arquivo_config_jogo.txt
+
+Se estiver na pasta src
+
+1 - Compile o código usando o seguinte comando no terminal
+
+	javac *.java
+
+2 - Execute o código usando
+	
+	java Main arquivo_config_jogo.txt
